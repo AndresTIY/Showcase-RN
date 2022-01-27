@@ -1,6 +1,4 @@
-// import {ActionCreator} from '@reduxjs/toolkit';
-
-import {setDataIsLoading, setData} from '../actions/actions';
+import {setDataIsLoading, setData, showError} from '../actions/actions';
 import * as T from '../actionTypes/actionTypes';
 
 export interface iItem {
@@ -9,6 +7,10 @@ export interface iItem {
   primaryImageSmall: string;
   title: string;
   department: string;
+  objectName: string;
+  period: string;
+  artistDisplayName: string;
+  objectDate: string;
 }
 
 interface iInitialState {
@@ -23,7 +25,9 @@ const INITIAL_STATE: iInitialState = {
   errorMessage: '',
 };
 
-type Action = ReturnType<typeof setDataIsLoading | typeof setData>;
+type Action = ReturnType<
+  typeof setDataIsLoading | typeof setData | typeof showError
+>;
 
 export const reducer = (state = INITIAL_STATE, action: Action) => {
   switch (action.type) {
