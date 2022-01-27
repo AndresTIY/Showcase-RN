@@ -5,53 +5,52 @@ import {
   FlatList,
   SafeAreaView,
   ListRenderItem,
-  Image,
-  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 
-import {BaseText} from '../../components';
+import {BaseText, BlurredImage} from '../../components';
 import {iItem} from '../../store/reducers/reducer';
 import {colors} from '../../styles';
-import {useRoute} from '@react-navigation/native';
-import {DepartmentScreenRouteProp} from '../../navigation/navigation';
+import {useRoute, useNavigation} from '@react-navigation/native';
+import {
+  DepartmentScreenRouteProp,
+  DepartmentScreenNavigationProp,
+} from '../../navigation/navigation';
 
 const Department = () => {
   const [screenData, setScreenData] = useState<iItem[] | undefined>(undefined);
 
-  const route = useRoute<DepartmentScreenRouteProp>();
+  const {
+    params: {departmentData, departmentTitle},
+  } = useRoute<DepartmentScreenRouteProp>();
+  const {navigate} = useNavigation<DepartmentScreenNavigationProp>();
 
   useEffect(() => {
-    if (route.params?.departmentData) {
-      setScreenData(route.params.departmentData);
+    if (departmentData) {
+      setScreenData(departmentData);
     }
-  }, [route.params]);
+  }, [departmentData]);
 
   const renderItem: ListRenderItem<iItem> = ({item}) => {
     return (
-      <View style={styles.cardStyle}>
-        <ImageBackground
-          source={{uri: item.primaryImageSmall}}
-          blurRadius={30}
-          resizeMode="cover"
-          style={styles.imageBackgroundStyle}>
-          <Image
-            source={{uri: item.primaryImageSmall}}
-            resizeMode="contain"
-            style={styles.cardImageStyle}
-          />
-        </ImageBackground>
+      <TouchableOpacity
+        onPress={() =>
+          navigate('DepartmentModal', {departmentDetailData: item})
+        }
+        style={styles.cardStyle}>
+        <BlurredImage source={item.primaryImageSmall} />
         <View style={styles.textContainer}>
           <BaseText bold>{item.title}</BaseText>
           {!!item.artistDisplayName && (
             <BaseText>Artist: {item.artistDisplayName}</BaseText>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   const header = (
     <BaseText center fontSize="large">
-      {route.params?.departmentTitle}
+      {departmentTitle}
     </BaseText>
   );
 
@@ -76,17 +75,6 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     marginTop: 20,
-    // flex: 1,
-  },
-  imageBackgroundStyle: {
-    width: 300,
-    overflow: 'hidden',
-    borderRadius: 10,
-  },
-  cardImageStyle: {
-    width: 300,
-    height: 300,
-    alignSelf: 'center',
   },
   cardStyle: {
     backgroundColor: colors.WHITE,
@@ -99,11 +87,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textContainer: {
-    // height: 40,
     paddingVertical: 10,
     justifyContent: 'center',
     width: '100%',
-    // alignItems: 'center',
   },
 });
 export default Department;
