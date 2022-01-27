@@ -1,5 +1,6 @@
 import React from 'react';
-import {ImageBackground, Image, StyleSheet} from 'react-native';
+import {ImageBackground, StyleSheet} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 interface iBlurredImage {
   source: string;
@@ -12,7 +13,7 @@ const BlurredImage: React.FC<iBlurredImage> = ({source}) => {
       blurRadius={30}
       resizeMode="cover"
       style={styles.imageBackgroundStyle}>
-      <Image
+      <FastImage
         source={{uri: source}}
         resizeMode="contain"
         style={styles.cardImageStyle}
