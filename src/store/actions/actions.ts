@@ -27,7 +27,7 @@ export const getData = () => {
       dispatch(setDataIsLoading(true));
       const {data} = await API.getListOfObjectIds();
       if (data.total >= 30) {
-        const shortenedArray = data.objectIDs.slice(0, 20);
+        const shortenedArray = data.objectIDs.slice(0, 30);
 
         try {
           let collectionOfResults: any[] = [];
@@ -49,6 +49,7 @@ export const getData = () => {
       }
     } catch (e) {
       showError(`Error: ${e}`);
+      dispatch(setDataIsLoading(false));
     }
   };
 };
