@@ -1,0 +1,4 @@
+export const SET_DATA = 'SET_DATA';
+export const DATA_LOADING = 'DATA_LOADING';
+export const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE';
+export const HIDE_ERROR_MESSAGE = 'HIDE_ERROR_MESSAGE';
