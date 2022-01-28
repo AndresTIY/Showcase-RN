@@ -33,7 +33,8 @@ const LoadingWrapper = () => {
       timerRef?.current && clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         fadeOut();
-      }, 1000);
+      }, 2500);
+      // }, 1000);
     }
   }, [dataIsLoading, opacityValue]);
 
