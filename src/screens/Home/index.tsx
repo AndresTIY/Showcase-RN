@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../types/hooks';
-import {getData} from '../../store/actions/actions';
+import {getData, showError} from '../../store/actions/actions';
 import {BaseText} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,6 +10,7 @@ import {HomeNavigationProp} from '../../navigation/navigation';
 
 const Home = () => {
   const [departmentNames, setDepartmentNames] = useState<string[]>([]);
+  const [showErrorButton, setShowErrorButton] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const {data} = useAppSelector(state => state);
@@ -41,6 +42,14 @@ const Home = () => {
     navigate('Department', {departmentData, departmentTitle});
   };
 
+  const errorButton = (
+    <TouchableOpacity
+      onPress={() => dispatch(showError('Something Went Wrong'))}
+      style={styles.errorButton}>
+      <BaseText error>Show Error</BaseText>
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <BaseText center fontSize="large">
@@ -60,6 +69,11 @@ const Home = () => {
           </TouchableOpacity>
         );
       })}
+      {showErrorButton && errorButton}
+      <TouchableOpacity
+        onPress={() => setShowErrorButton(!showErrorButton)}
+        style={styles.hiddenButton}
+      />
     </SafeAreaView>
   );
 };
@@ -91,6 +105,13 @@ const styles = StyleSheet.create({
   },
   textSpacing: {
     marginVertical: 20,
+  },
+  errorButton: {
+    padding: 40,
+  },
+  hiddenButton: {
+    width: '100%',
+    height: 70,
   },
 });
 export default Home;
