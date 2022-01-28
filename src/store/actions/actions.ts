@@ -38,13 +38,12 @@ export const getData = () => {
 
             if (i === shortenedArray.length - 1) {
               dispatch(setData(collectionOfResults));
-              dispatch(setDataIsLoading(false));
             }
           });
-
-          console.log('COLLECTION', collectionOfResults);
         } catch (e) {
           showError(`Error: ${e}`);
+        } finally {
+          dispatch(setDataIsLoading(false));
         }
       }
     } catch (e) {
@@ -53,18 +52,19 @@ export const getData = () => {
     }
   };
 };
-// export const getData = () => {
+
+// export const setDataWithKey = (data: any, key: string) => ({
+//   type: `${T.SET_DATA}_${key} `,
+//   payload: data,
+// });
+
+// export const getDataExample = (endPtFunction: () => void, key: string) => {
 //   return async (dispatch: Dispatch) => {
 //     try {
 //       dispatch(setDataIsLoading(true));
-//       const data = await getEndpointData();
-//       console.log('DATA', data);
+//       const data = await endPtFunction();
 
-//       // dispatch(setData(data.data));
-
-//       // if (data?.data) {
-//       //   dispatch(setData(data.data));
-//       // }
+//       dispatch(setDataWithKey(data, key));
 //     } catch (e) {
 //       showError(`Error: ${e}`);
 //     } finally {
